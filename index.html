@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #snake{
+            border: 3px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snake" height="500" width="500"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("snake")
+    var ctx = canvas.getContext("2d")
+    
+   
+    var x = Math.floor(Math.random() * canvas.width)
+    var y = Math.floor(Math.random() * canvas.height)
+    var snake = [{x:x,y:y}]
+
+    var xh = Math.floor(Math.random() * canvas.width/2)
+    var yh = Math.floor(Math.random() * canvas.height/2)
+
+    var rightPressed = false;
+    var leftPressed = false;
+    var upPressed = false;
+    var downPressed = false;
+
+    var hamburguer = new Image();
+    hamburguer.src = 'hamburguer.png'
+
+    var k = 1;
+    var width = 10;
+    var height = 10;
+    
+    function drawHamburguer(x,y){
+        ctx.drawImage(hamburguer,x,y)
+    }
+
+    function drawSnake(xx,yy,k){
+        if(snake[0].x+xx > canvas.width || snake[0].x+xx < 0 || snake[0].y + yy > canvas.height || snake[0].y + yy < 0){
+            a = "red"
+            xx = -xx;
+            yy = -yy;
+        } else {
+            a = "blue"
+        }
+
+        for(var i = k-1; i >0;i--){
+            snake[i].x = snake[i-1].x
+            snake[i].y = snake[i-1].y
+        }
+        snake.unshift({x:snake[0].x+xx,y:snake[0].y+yy})
+        while(snake.length > k)
+            snake.pop()
+        ctx.beginPath()
+        for(var i = 0; i < snake.length; i++ ){
+            ctx.rect(snake[i].x,snake[i].y,width,height)
+            ctx.fillStyle = a;
+            ctx.fill();
+        }
+        ctx.closePath()
+
+    }
+
+    function collisionDetection(x,y,z,w){
+        if(x>z && x < z+32 && y>w && y <w+40){
+           k+=5
+           for(var i = 0; i < 5; i++)
+           snake.push({x:snake[0].x,y:snake[0].y})
+           xh = Math.floor(Math.random() * canvas.width/2)
+           yh = Math.floor(Math.random() * canvas.height/2)
+        }
+    }
+
+    function draw(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawSnake(x,y,k)
+        drawHamburguer(xh,yh)
+
+        if(rightPressed){
+            x = 5;
+            y = 0
+        }
+        else if(leftPressed){
+            x = - 5;
+            y = 0
+        } 
+        else if(upPressed){
+            y =  - 5;
+            x = 0
+        }
+        else if(downPressed){
+            y =  5;
+            x = 0;
+        } else{
+            x = 0;
+            y = 0;
+        }
+        collisionDetection(snake[0].x,snake[0].y,xh,yh)
+    }
+    
+    document.addEventListener("keydown", keyDownHandler, false);
+    
+
+    function keyDownHandler(e) {
+        if(e.key == "Right" || e.key == "ArrowRight") {
+            rightPressed = true;
+            leftPressed = false;
+            upPressed = false;
+            downPressed = false;
+        }
+        else if(e.key == "Left" || e.key == "ArrowLeft") {
+            leftPressed = true;
+            rightPressed = false;
+            upPressed = false;
+            downPressed = false;
+        }
+        else if(e.key == "Up" || e.key == "ArrowUp"){
+            upPressed = true;
+            rightPressed = false;
+            leftPressed = false;
+            downPressed = false;
+        }
+        else if(e.key == "Down" || e.key == "ArrowDown"){
+            downPressed = true;
+            upPressed = false;
+            leftPressed = false;
+            rightPressed = false;
+        }
+    }
+    setInterval(draw,20)
+    
+</script>
+
+</html>
