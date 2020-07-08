@@ -15,127 +15,171 @@
     <canvas id="snake" height="500" width="500"></canvas>
 </body>
 <script>
-    var canvas = document.getElementById("snake")
-    var ctx = canvas.getContext("2d")
-    
-   
-    var x = Math.floor(Math.random() * canvas.width)
-    var y = Math.floor(Math.random() * canvas.height)
-    var snake = [{x:x,y:y}]
-
-    var xh = Math.floor(Math.random() * canvas.width/2)
-    var yh = Math.floor(Math.random() * canvas.height/2)
-
     var rightPressed = false;
     var leftPressed = false;
     var upPressed = false;
     var downPressed = false;
 
-    var hamburguer = new Image();
-    hamburguer.src = 'hamburguer.png'
-
-    var k = 1;
-    var width = 10;
-    var height = 10;
-    
-    function drawHamburguer(x,y){
-        ctx.drawImage(hamburguer,x,y)
-    }
-
-    function drawSnake(xx,yy,k){
-        if(snake[0].x+xx > canvas.width || snake[0].x+xx < 0 || snake[0].y + yy > canvas.height || snake[0].y + yy < 0){
-            a = "red"
-            xx = -xx;
-            yy = -yy;
-        } else {
-            a = "blue"
-        }
-
-        for(var i = k-1; i >0;i--){
-            snake[i].x = snake[i-1].x
-            snake[i].y = snake[i-1].y
-        }
-        snake.unshift({x:snake[0].x+xx,y:snake[0].y+yy})
-        while(snake.length > k)
-            snake.pop()
-        ctx.beginPath()
-        for(var i = 0; i < snake.length; i++ ){
-            ctx.rect(snake[i].x,snake[i].y,width,height)
-            ctx.fillStyle = a;
-            ctx.fill();
-        }
-        ctx.closePath()
-
-    }
-
-    function collisionDetection(x,y,z,w){
-        if(x>z && x < z+32 && y>w && y <w+40){
-           k+=5
-           for(var i = 0; i < 5; i++)
-           snake.push({x:snake[0].x,y:snake[0].y})
-           xh = Math.floor(Math.random() * canvas.width/2)
-           yh = Math.floor(Math.random() * canvas.height/2)
-        }
-    }
-
-    function draw(){
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawSnake(x,y,k)
-        drawHamburguer(xh,yh)
-
-        if(rightPressed){
-            x = 5;
-            y = 0
-        }
-        else if(leftPressed){
-            x = - 5;
-            y = 0
-        } 
-        else if(upPressed){
-            y =  - 5;
-            x = 0
-        }
-        else if(downPressed){
-            y =  5;
-            x = 0;
-        } else{
-            x = 0;
-            y = 0;
-        }
-        collisionDetection(snake[0].x,snake[0].y,xh,yh)
-    }
-    
-    document.addEventListener("keydown", keyDownHandler, false);
-    
-
     function keyDownHandler(e) {
-        if(e.key == "Right" || e.key == "ArrowRight") {
-            rightPressed = true;
-            leftPressed = false;
-            upPressed = false;
-            downPressed = false;
+            if(e.key == "Right" || e.key == "ArrowRight") {
+                rightPressed = true;
+                leftPressed = false;
+                upPressed = false;
+                downPressed = false;
+            }
+            else if(e.key == "Left" || e.key == "ArrowLeft") {
+                leftPressed = true;
+                rightPressed = false;
+                upPressed = false;
+                downPressed = false;
+            }
+            else if(e.key == "Up" || e.key == "ArrowUp"){
+                upPressed = true;
+                rightPressed = false;
+                leftPressed = false;
+                downPressed = false;
+            }
+            else if(e.key == "Down" || e.key == "ArrowDown"){
+                downPressed = true;
+                upPressed = false;
+                leftPressed = false;
+                rightPressed = false;
+            }
         }
-        else if(e.key == "Left" || e.key == "ArrowLeft") {
-            leftPressed = true;
-            rightPressed = false;
-            upPressed = false;
-            downPressed = false;
+    
+    class Hamburguer{
+        constructor(xposition,yposition){
+            this.hamburguer = new Image();
+            this.hamburguer.src = 'hamburguer.png';
+            this.width = 32;
+            this.height = 40;
+            this.x = xposition;
+            this.y=  yposition;
         }
-        else if(e.key == "Up" || e.key == "ArrowUp"){
-            upPressed = true;
-            rightPressed = false;
-            leftPressed = false;
-            downPressed = false;
+        get hamburguerPosition(){
+            return [this.x,this.y];
         }
-        else if(e.key == "Down" || e.key == "ArrowDown"){
-            downPressed = true;
-            upPressed = false;
-            leftPressed = false;
-            rightPressed = false;
+        get getHeight(){
+            return this.height;
+        }
+        get getWidth(){
+            return this.width;
+        }
+        drawHamburguer(ctx){
+            ctx.drawImage(this.hamburguer,this.x,this.y);
+        }
+        newPosition(xposition,yposition){
+            this.x = xposition;
+            this.y= yposition;
+        } 
+    }
+    class Snake{
+        constructor(width,height){
+            var self = this;
+            self.height = 10;
+            self.width = 10;
+            self.x = Math.floor(Math.random() * width);
+            self.y = Math.floor(Math.random() * height);
+            self.dx = 0;
+            self.dy = 0;
+            self.body = [{x:self.x,y:self.y}];
+            self.weight = 1;
+        }
+        get getHeight(){
+            return this.height;
+        }
+        get getWidth(){
+            return this.width;
+        }
+        get snakeBody(){
+            return this.body;
+        }
+        get snakeHead(){
+            var self = this;
+            return [self.body[0].x,self.body[0].y];
+        }
+        directionSnake(x,y){
+            this.dx = x;
+            this.dy = y;
+        }
+        drawSnake(ctx){
+            for(var i = this.body.length-1; i >0;i--){
+                this.body[i].x = this.body[i-1].x
+                this.body[i].y = this.body[i-1].y
+            }
+            this.body.unshift({x:this.body[0].x+this.dx,y:this.body[0].y+this.dy})
+            while(this.body.length > this.weight)
+                this.body.pop()
+            ctx.beginPath()
+            for(var i = 0; i < this.body.length; i++ ){
+                ctx.rect(this.body[i].x,this.body[i].y,this.width,this.height)
+                ctx.fillStyle = "red";
+                ctx.fill();
+            }
+            ctx.closePath()
+        }
+        grow(){
+            this.weight +=5;
+            for(var i = 0; i < this.height/2; i++){
+                this.body.push({x:this.body[0].x,y:this.body[0].y});
+            }
+        }
+
+    }
+    class Game{
+        constructor(){
+            var self = this
+            self.canvas = document.getElementById("snake");
+            self.ctx = this.canvas.getContext("2d");
+            self.snake =  new Snake(self.canvas.width,self.canvas.height);
+            self.hamburguer = new Hamburguer(Math.floor(Math.random() * self.canvas.width), Math.floor(Math.random() * self.canvas.height));
+        }
+        draw(){
+            var self = this;
+            self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+            self.snake.drawSnake(self.ctx);
+            self.hamburguer.drawHamburguer(self.ctx);
+            self.move();
+            self.collisionDetection();
+        }
+        collisionDetection(){
+            var self = this;
+            var [x,y] = self.snake.snakeHead;
+            var [z,w] = self.hamburguer.hamburguerPosition;
+            if(x>z && x < z+self.hamburguer.getWidth && y>w && y <w+self.hamburguer.getHeight){
+                self.snake.grow();
+                self.hamburguer.newPosition(Math.floor(Math.random() * self.canvas.width), Math.floor(Math.random() * self.canvas.height));
+            }
+
+        }
+        move(){
+            var self = this;
+            if(rightPressed){
+                self.snake.directionSnake(5,0);
+            }
+            else if(leftPressed){
+                self.snake.directionSnake(-5,0);
+            } 
+            else if(upPressed){
+                self.snake.directionSnake(0,-5);
+            }
+            else if(downPressed){
+                self.snake.directionSnake(0,5);
+            } else{
+                self.snake.directionSnake(0,0);
+            }
+        }
+        play(){
+            var self = this;
+            //setInterval(self.draw,10)
+            
         }
     }
-    setInterval(draw,20)
-    
+    const game = new Game();
+    game.play()
+
+    setInterval(game.draw.bind(game),10)
+    document.addEventListener("keydown", keyDownHandler, false); 
 </script>
 
 </html>
