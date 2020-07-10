@@ -1,0 +1,58 @@
+body{
+    background-color: #76A08A;
+    display: flex;
+}
+
+#title{
+    writing-mode: vertical-rl;
+    margin:auto 0;
+    padding: 70px;
+    font-size: 200%;
+    color: #B62A3D;
+    font-weight: bold;
+    
+
+}
+#space{
+    margin:auto auto;
+    width: 100%;
+    padding:5px 10px;
+    background-image: url("../assets/snake.jpg");
+    background-size:100%;
+    
+}
+#game{
+    margin-top: 40px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+}
+#options{
+    margin-top: 10px;
+    display: flex;
+    border: 2px solid black;
+    padding: 10px;
+    font-weight: bold;
+    width: 50% ;
+    background-color: #DAECED;
+    flex-direction: column;
+}
+
+#reset{
+    width: 50%;
+    border-radius: 50px;
+    background-color: #EDCB64;
+    color: #B62A3D;
+    font-size: large;
+}
+#snake{
+    border: 2px solid black;
+    background-color:#DAECED;
+    box-shadow: 10px -8px 5px teal;
+}
+#score{
+    margin:20px;
+    border: 2px solid black;
+    background-color: #DAECED;
+}
