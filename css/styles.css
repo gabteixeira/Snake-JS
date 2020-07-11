@@ -1,42 +1,55 @@
 body{
     background-color: #76A08A;
     display: flex;
+    background-image: url("../assets/snake.jpg");
+    background-size:100%;
 }
 
-#title{
-    writing-mode: vertical-rl;
-    margin:auto 0;
-    padding: 70px;
-    font-size: 200%;
-    color: #B62A3D;
-    font-weight: bold;
-    
-
+a{
+    text-decoration: none;
+    color: black;
 }
+
+
 #space{
     margin:auto auto;
     width: 100%;
     padding:5px 10px;
-    background-image: url("../assets/snake.jpg");
-    background-size:100%;
     
 }
 #game{
-    margin-top: 40px;
+    margin-top: 20px;
+    margin-bottom:20px;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-
 }
+
 #options{
     margin-top: 10px;
     display: flex;
-    border: 2px solid black;
+    border: 2px solid darkgreen;
     padding: 10px;
     font-weight: bold;
     width: 50% ;
     background-color: #DAECED;
     flex-direction: column;
+}
+
+
+#items{
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+#info{
+    background-color:  #DAECED;
+    border:2px solid darkgreen;
+    width: 20%;
+    height:10%;
+    padding:5px;
+    align-self: flex-end;
 }
 
 #reset{
@@ -47,12 +60,14 @@ body{
     font-size: large;
 }
 #snake{
-    border: 2px solid black;
+    border: 3px dashed darkgreen;
     background-color:#DAECED;
-    box-shadow: 10px -8px 5px teal;
+    box-shadow: 8px 10px 10px greenyellow;
+    border-radius: 90px;
 }
+
 #score{
     margin:20px;
-    border: 2px solid black;
+    border: 2px solid darkgreen;
     background-color: #DAECED;
 }

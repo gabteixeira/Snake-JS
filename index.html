@@ -4,20 +4,24 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/styles.css">
-        <title>SNAKEJS by: GabTeixeira</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>SNAKE.JS</title>
     </head>
     <body>
-        <div id="title">
-            SNAKE.JS
-        </div>
         <div id="space">
             <div id = "game">
                 <canvas id="snake" height="400" width="800"></canvas>
                 <canvas id="score" height ="250" width="200"></canvas>
             </div>
-            <div id = "options">
-                <button id ="reset" onclick="reset()">RESET</button>
-                <p>You can pause the game by pressing the 'space' key.</p>
+            <div id = "items">
+                <div id = "options">
+                    <button id ="reset" onclick="reset()">RESET</button>
+                    <p>You can pause the game by pressing the 'space' key.</p>
+                </div>
+                    <div id = "info">
+                        Created by Gabriel Teixeira
+                        <a href="https://github.com/gabteixeira"><i class="fa fa-github"></i></a>
+                    </div>
             </div>
         </div>
     </body>
